@@ -2,6 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.myMapper">
+	
+	<update id="updateWritingInfo" parameterType="model.Writing">
+		update image_writing set writer_name=#{writer_name},
+		email=#{email},
+		title=#{title},
+		content=#{content},
+		image_name=#{image_name} where writing_id=#{writing_id}
+	</update>
+	
+	<delete id="deleteWritingInfo" parameterType="Integer">
+		delete from writing_info where writing_id=#{writing_id}
+	</delete>
+	
+	<select id="getWritingInfo">
+		select * from (
+			select a.*, rownum rn from(
+				(select * from image_writing order by group_id desc, order_no asc) a
+			)
+		)		
+	</select>
+
+	<select id="getWritingInfoById" resultType="model.Writing" parameterType="Integer">
+		select * from image_writing where writing_id=#{writing_id}
+	</select>
+
+	<insert id="insertWriting" parameterType="model.Writing">
+		insert into image_writing vales(#{writing_id},#{register_date},#{writer_name},
+		#{email},#{image_name},#{password},#{title},#{content})
+	</insert>
+
+	<select id="getMaxWritingId" resultType="Integer">
+		select max(writing_id) max_id from image_writing
+	</select>
 	<select id="selectCart" resultType="model.CartItem"
 		parameterType="String">
 		select cart.code code,cart.num num, i.price price,

@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -11,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import logic.LoginCatalog;
+import model.Cart;
+import model.CartItem;
 import model.User;
 
 @Controller
 public class LoginController {
 	@Autowired
 	private LoginCatalog loginCatalog;
+	@Autowired
+	private Cart cart;
 	
 	@RequestMapping(value="/login/template.html",
 				method=RequestMethod.POST)
@@ -34,6 +41,20 @@ public class LoginController {
 			mav.addObject("BODY","loginResult.jsp");
 		}else {//ID와 암호가 모두 일치하는 경우
 			session.setAttribute("loginUser", user.getId());
+			//DB에서 카트 합치기 위해서
+			List<CartItem> cartList = cart.getCart(user.getId());
+			if(cartList != null) {//로그인한 계정으로 장바구니가 존재하는 경우
+				Iterator it = cartList.iterator();
+				int i=0;
+				while(it.hasNext()) {
+					CartItem ci = (CartItem)it.next();
+					this.cart.setCodeList(i, ci.getCode());
+					this.cart.setNumList(i, ci.getNum());
+					i++;
+				}
+				session.setAttribute("CART", cart);
+			}
+			//요까지
 			mav.addObject("BODY","loginResult.jsp");
 		}
 		return mav;

@@ -64,7 +64,8 @@ fieldset {
 			<a href="../product/open.html">상품정보 등록</a><br/>
 			<a href="../read/product.html">상품목록 보기</a><br/>
 			<a href="../cart/show.html">장바구니 보기</a><br/>
-			<a href="">이미지 게시판 쓰기/답글</a><br/>
+			<a href="../write/writeForm.html">이미지 게시판 쓰기/답글</a><br/>
+			<%-- up로드에서는 라이브러리, 스프링객체 쓰는방법이 있다. --%>
 			<a href="">이미지 게시판 읽기</a>
 		</fieldset>
 	</div>

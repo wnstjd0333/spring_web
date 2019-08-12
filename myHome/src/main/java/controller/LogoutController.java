@@ -12,6 +12,8 @@ public class LogoutController {
 	@RequestMapping(value="/logout/template.html", method=RequestMethod.GET)
 	public ModelAndView logout(HttpSession session) {
 		session.removeAttribute("loginUser");
+		//장바구니 속성제거
+		session.removeAttribute("CART");
 		ModelAndView mav = new ModelAndView("home/template");
 		mav.addObject("BODY","logoutResult.jsp");
 		return mav;
