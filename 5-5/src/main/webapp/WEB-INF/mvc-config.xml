@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Uncomment and your base-package here:
+         <context:component-scan
+            base-package="org.springframework.samples.web"/>  -->
+
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></bean>
+<!-- 												컨트롤러 클래스에 어노테이션을 사용해서 브라우저가 요청한 URL과의 매핑을 정의한다. -->
+<!-- 											 	1번 HandlerMapping : 클라이언트의 요청URL을 어떤 컨트롤러가 처리할지 결정 -->
+	<context:component-scan base-package="controller,dao,logic">	
+	</context:component-scan>
+    
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	        <!-- Example: a logical view name of 'showMessage' is mapped to '/WEB-INF/jsp/showMessage.jsp' -->
+<!-- 	        			WEB-INF 폴더에 있는 뷰파일들(ex.jsp)을 처리한다. 스프링 설정파일에 ViewResolver의 구현 클래스가 정의 되지 않는 경우에 사용되는 기본 클래스 -->
+<!-- 											5번 ViewResolver :  컨트롤러의 처리 결과를 생성할 뷰를 결정  -->
+	        <property name="prefix" value="/WEB-INF/jsp/"/>
+	        <property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<bean id="exceptionHandler" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+<!-- 													web.xml 의 <error-page> 와 비슷하게 예외를 처리할 뷰를 지정할 수 있게 해준다. -->
+
+		<property name="exceptionMappings">
+			<value>
+				exception.LoginRequiredException=dummyLogin
+				exception.CartEmptyException=cartEmpty
+			</value>
+		</property>
+	</bean>
+</beans>

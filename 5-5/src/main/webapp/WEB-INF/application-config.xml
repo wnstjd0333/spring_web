@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url"
+			value="jdbc:oracle:thin:@127.0.0.1:1521:xe"></property>
+		<property name="username" value="hr"></property>
+		<property name="password" value="hr"></property>
+	</bean>
+<!-- 	Factory는 객체를 생성해내는 역할 -->
+<!-- bean : 스프링 컨테이너에 의해서 관리되는 객체를 말함. -->
+<!-- IoC(Inversion of Control) 에서 Container제공 -->
+<!-- IoC:의존성 역전(객체간의 결합도를 줄이고 유연한 코드 작성) -->
+<!-- 컨테이너의 유형 1.BeanFactory(A) 2.ApplicationContext(A,B) ? 상속 3.WebApplicationContext(A,B,C) ? 상속 -->
+<!-- BeanFactory : getBean()메소드가 호출되기 전까지는 bean을 생성하지 않음 -->
+<!-- 		 역할 1. XML파일에 등록되어 있는 Bean객체를 생성함 -->
+<!-- 		    2. Bean에 필요한 다양한 속성을 설정해줌 -->
+<!-- 		    3. 생성된 객체의 life Cycle을 관리해줌 -->
+<!-- ApplicationContext : context가 시작되기 전에 모든 SingleTon bean을 미리 로딩(preloading), 빠르게 bean 반환시켜주는 장점 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:configLocation="classpath:/mybatis-config.xml"></bean>
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+	
+	<bean id="messageSource" class= "org.springframework.context.support.ResourceBundleMessageSource">
+	<!-- 																properties파일을 열어서 에러 메세지를 처리 -->
+												
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+<!-- 				공통메세지 처리 -->
+<!-- 		properties파일의 언어코드를 제외한 이름 -->
+
+			</list>
+		</property>
+	</bean>	
+	<bean id="loginValidator" class="utils.LoginValidator"></bean>
+	<bean id="userEntryValidator" class="utils.UserEntryValidator"></bean>
+	
+</beans>
