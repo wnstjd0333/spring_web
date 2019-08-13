@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import logic.ItemCatalog;
+import logic.ReadCatalog;
 import logic.WriteCatalog;
 import model.Bbs;
 import model.Condition;
 import model.Item;
+import model.Writing;
 
 
 @Controller
@@ -21,6 +23,17 @@ public class ReadController {
 	private WriteCatalog writeCatalog;
 	@Autowired
 	private ItemCatalog itemCatalog;
+	@Autowired
+	private ReadCatalog readCatalog;
+	
+	@RequestMapping(value="/read/readImage.html")
+	public ModelAndView readImage(Integer id) {
+		ModelAndView mav = new ModelAndView("home/template");
+		Writing writing = this.readCatalog.readWriting(id);
+		mav.addObject("writing",writing);
+		mav.addObject("BODY","read_image.jsp");
+		return mav;
+	}
 	
 	@RequestMapping(value="/read/product.html",
 			method=RequestMethod.GET)

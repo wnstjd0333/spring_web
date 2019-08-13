@@ -61,6 +61,14 @@ public class WriteCatalogImpl implements WriteCatalog {
 		return this.writeDao.getWriting(c);
 	}
 
+	public Integer selectImageCount() {
+		return readDao.selectImageCount();
+	}
+
+	public Integer selectReplyPages(Integer seqno) {
+		return readDao.selectReplyPages(seqno);
+	}
+
 }
 
 

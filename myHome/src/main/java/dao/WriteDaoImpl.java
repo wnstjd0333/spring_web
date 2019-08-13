@@ -33,27 +33,27 @@ public class WriteDaoImpl implements WriteDao {
 	}
 	
 	public void updateWriting(Writing writing) {
-		session.update("",writing);
+		session.update("mappers.myMapper.updateWritingInfo",writing);
 	}
 	
 	public void deleteWriting(Writing writing) {
-		session.delete("",writing);
+		session.delete("mappers.myMapper.deleteWritingInfo",writing);
 	}
 	
 	public Writing getWritingById(Integer id) {
-		return session.selectOne("",id);
+		return session.selectOne("mappers.myMapper.getWritingInfoById",id);
 	}
 	
 	public void insertWriting(Writing writing) {
-		session.insert("",writing);
+		session.insert("mappers.myMapper.insertWriting",writing);
 	}
 	
 	public Integer getMaxWritingId() {
-		return session.selectOne("");
+		return session.selectOne("mappers.myMapper.getMaxWritingId");
 	}
 	
 	public List<Writing> getWriting(Condition c) {
-		return session.selectList("",c);
+		return session.selectList("mappers.myMapper.getWritingInfo",c);
 	}
 	
 }

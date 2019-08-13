@@ -19,6 +19,10 @@ public interface WriteCatalog {
 	void insertWriting(Writing writing);
 	Integer getMaxWritingId();
 	List<Writing> getWriting(Condition c);//글목록 검색
+	
+	Integer selectImageCount();//게시글의 갯수 리턴
+	Integer selectReplyPages(Integer seqno);//글번호로 일련번호 찾음
+	
 }
 
 

@@ -3,6 +3,18 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.myMapper">
 	
+	<select id="selectReplyPages" parameterType="Integer" resultType="Integer">
+		select rn from (
+			select a.*, rownum rn from(
+				(select * from image_writing order by group_id desc, order_no asc) a
+			)		
+		) where writing_id = #{writing_id}
+	</select>
+	
+	<select id="selectImageCount" resultType="Integer">
+		select count(*) from image_writing
+	</select>
+	
 	<update id="updateWritingInfo" parameterType="model.Writing">
 		update image_writing set writer_name=#{writer_name},
 		email=#{email},
@@ -12,15 +24,15 @@
 	</update>
 	
 	<delete id="deleteWritingInfo" parameterType="Integer">
-		delete from writing_info where writing_id=#{writing_id}
+		delete from image_writing where writing_id=#{writing_id}
 	</delete>
 	
-	<select id="getWritingInfo">
+	<select id="getWritingInfo" parameterType="model.Condition" resultType="model.Writing">
 		select * from (
 			select a.*, rownum rn from(
 				(select * from image_writing order by group_id desc, order_no asc) a
 			)
-		)		
+		) where rn between #{startRow} and #{endRow}
 	</select>
 
 	<select id="getWritingInfoById" resultType="model.Writing" parameterType="Integer">
@@ -28,8 +40,8 @@
 	</select>
 
 	<insert id="insertWriting" parameterType="model.Writing">
-		insert into image_writing vales(#{writing_id},#{register_date},#{writer_name},
-		#{email},#{image_name},#{password},#{title},#{content})
+		insert into image_writing values(#{writing_id},#{group_id},#{order_no},#{parent_id},
+		#{register_date},#{writer_name},#{email},#{image_name},#{password},#{title},#{content})
 	</insert>
 
 	<select id="getMaxWritingId" resultType="Integer">

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import model.Bbs;
 import model.Condition;
+import model.Writing;
 
 @Repository
 public class ReadDaoImpl implements ReadDao {
@@ -25,6 +26,18 @@ public class ReadDaoImpl implements ReadDao {
 
 	public Bbs getBbsDetail(Integer id) {
 		return session.selectOne("mappers.myMapper.getBBSDetail",id);
+	}
+
+	public Integer selectImageCount() {
+		return session.selectOne("mappers.myMapper.selectImageCount");
+	}
+
+	public Integer selectReplyPages(Integer seqno) {
+		return session.selectOne("mappers.myMapper.selectReplyPages",seqno);
+	}
+
+	public Writing readWriting(Integer id) {
+		return session.selectOne("mappers.myMapper.getWritingInfoById",id);
 	}
 
 
